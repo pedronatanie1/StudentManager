@@ -4,7 +4,13 @@ Console-based student management system in C#, built to practise OOP, validation
 
 ## Status
 
-Work in progress. Currently building: domain models and basic student management.
+Work in progress. Layer 1 (domain models and student management) is partly done.
+
+- [x] Domain models: Student, Course, StudentStatus
+- [x] Storage behind an interface (IStudentStore, in-memory store)
+- [x] Student service
+- [ ] Validation
+- [ ] Console menu: add, view, update and remove students
 
 ## Features
 
