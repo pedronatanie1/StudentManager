@@ -1,8 +1,9 @@
-﻿using System;
+﻿using StudentManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace StudentManager.Models
+namespace StudentManager.Services
 {
     /*
     * This class provides an in-memory implementation of IStudentStorage.
@@ -12,11 +13,11 @@ namespace StudentManager.Models
     internal class InMemoryStudentStorage : IStudentStorage
     {
         // Stores students using their unique ID as the key.
-        private readonly Dictionary<int, Student> studentsStorage = new(); 
+        private readonly Dictionary<int, Student> _studentsStorage = new(); 
 
-        public bool Add(Student student) => studentsStorage.TryAdd(student.Id, student);
-        public Student? GetById(int id) => studentsStorage.GetValueOrDefault(id); 
-        public IEnumerable<Student> GetStudents() => studentsStorage.Values; 
-        public bool Remove(int id) => studentsStorage.Remove(id);
+        public bool Add(Student student) => _studentsStorage.TryAdd(student.Id, student);
+        public Student? GetById(int id) => _studentsStorage.GetValueOrDefault(id); 
+        public IEnumerable<Student> GetStudents() => _studentsStorage.Values; 
+        public bool Remove(int id) => _studentsStorage.Remove(id);
     }
 }

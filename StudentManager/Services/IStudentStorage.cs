@@ -1,8 +1,9 @@
-﻿using System;
+﻿using StudentManager.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace StudentManager.Models
+namespace StudentManager.Services
 {
     /*
     * Using this interface allows me to swap in-memory storage
@@ -11,9 +12,9 @@ namespace StudentManager.Models
     */
     internal interface IStudentStorage
     {
-        bool Add(Student student);              // false if the ID already exists
-        Student? GetById(int id);               // null if not found
-        IEnumerable<Student> GetStudents();     // a sequence I can iterate over
-        bool Remove(int id);                    // false if not found
+        bool Add(Student student);              // false if the ID already exists.
+        Student? GetById(int id);               // null if not found.
+        IEnumerable<Student> GetStudents();     // a sequence I can iterate over.
+        bool Remove(int id);                    // false if not found.
     }
 }
