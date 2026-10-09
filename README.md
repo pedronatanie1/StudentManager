@@ -9,7 +9,7 @@ Work in progress. Layer 1 (domain models and student management) is partly done.
 - [x] Domain models: Student, Course, StudentStatus
 - [x] Storage behind an interface (IStudentStore, in-memory store)
 - [x] Student service
-- [ ] Validation
+- [x] Validation
 - [ ] Console menu: add, view, update and remove students
 
 ## Features
