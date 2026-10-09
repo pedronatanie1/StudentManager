@@ -1,6 +1,4 @@
 ﻿using StudentManager.Models;
-using System;
-using System.Linq;
 using System.Net.Mail;
 
 namespace StudentManager.Validation

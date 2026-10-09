@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace StudentManager.Validation
+﻿namespace StudentManager.Validation
 {
     /*
      * Represents the outcome of a validation operation.

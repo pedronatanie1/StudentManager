@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-
-namespace StudentManager.Models
+﻿namespace StudentManager.Models
 {
     /*
     * Course is represented as a record because it is currently treated
