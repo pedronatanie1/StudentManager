@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Net.Mail;
 
 namespace StudentManager.Models
 {
@@ -19,28 +18,71 @@ namespace StudentManager.Models
             string email, DateOnly birth, Course course, int year)
         {
             if (id <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id));
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(id),
+                    "Student ID must be greater than zero.");
+            }
+
+
             if (string.IsNullOrWhiteSpace(firstName))
-                throw new ArgumentException("First name is required.", nameof(firstName));
+            {
+                throw new ArgumentException(
+                    "First name is required.",
+                    nameof(firstName));
+            }
+
+
             if (string.IsNullOrWhiteSpace(lastName))
-                throw new ArgumentException("First name is required.", nameof(lastName));
+            {
+                throw new ArgumentException(
+                    "Last name is required.", 
+                    nameof(lastName));
+            }
+
             if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentException("First name is required.", nameof(email));
+            {
+                throw new ArgumentException(
+                    "Email is required.", 
+                    nameof(email));
+            }
+
+            if (!MailAddress.TryCreate(email, out var address))
+            {
+                throw new ArgumentException(
+                    "Email format is not valid.",
+                    nameof(email));
+            }
 
             var today = DateOnly.FromDateTime(DateTime.Today);
 
             if (birth > today)
-                throw new ArgumentOutOfRangeException(nameof(birth),
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(birth),
                     "Date of birth cannot be in the future.");
+            }
 
             if (birth < today.AddYears(-100))
-                throw new ArgumentOutOfRangeException(nameof(birth),
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(birth),
                     "Date of birth is not plausible.");
+            }
+
 
             if (course is null)
-                throw new ArgumentNullException(nameof(course));
-            if (year <= 0)
-                throw new ArgumentOutOfRangeException(nameof(id));
+            {
+                throw new ArgumentNullException(
+                    nameof(course));
+            }
+
+            if (year < 1 || year > course.Duration)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(year),
+                    "Year of study must be within the course duration.");
+            }
 
             Id = id;
             FirstName = firstName;
