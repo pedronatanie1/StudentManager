@@ -44,5 +44,24 @@ namespace StudentManager.Validation
 
             return ValidationResult.Valid();
         }
+
+        public static ValidationResult ValidateDateOfBirth(DateOnly dateOfBirth)
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+
+            if (dateOfBirth > today)
+            {
+                return ValidationResult.Invalid(
+                    "Date of birth cannot be in the future.");
+            }
+
+            if (dateOfBirth < today.AddYears(-100))
+            {
+                return ValidationResult.Invalid(
+                    "Date of birth is not plausible.");
+            }
+
+            return ValidationResult.Valid();
+        }
     }
 }
