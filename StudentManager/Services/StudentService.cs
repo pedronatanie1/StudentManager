@@ -8,6 +8,8 @@ namespace StudentManager.Services
         private readonly IStudentStorage _storage;
         public StudentService (IStudentStorage storage)
         {
+            ArgumentNullException.ThrowIfNull(storage);
+
             _storage = storage;
         }
 
