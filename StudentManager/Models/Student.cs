@@ -46,7 +46,7 @@ namespace StudentManager.Models
                     nameof(email));
             }
 
-            if (!MailAddress.TryCreate(email, out var address))
+            if (!MailAddress.TryCreate(email, out _))
             {
                 throw new ArgumentException(
                     "Email format is not valid.",
