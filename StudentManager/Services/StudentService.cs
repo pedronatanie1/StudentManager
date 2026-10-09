@@ -18,6 +18,45 @@ namespace StudentManager.Services
         public IEnumerable<Student> GetAll() => _storage.GetStudents();
         public bool RemoveStudent(int id) => _storage.Remove(id);
 
-        // Update, Search, Filter, Sort, Statistics come later
+        public IEnumerable<Student> Search(string term)
+        {
+            if (string.IsNullOrWhiteSpace(term))
+            {
+                return Enumerable.Empty<Student>();
+            }
+
+            term = term.Trim();
+
+            return _storage.GetStudents().Where(s =>
+                s.Id.ToString().Contains(term) ||
+                s.FirstName.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                s.LastName.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                s.Email.Contains(term, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public List<Student> Filter(
+            Course? course,
+            int? year,
+            StudentStatus? status)
+        {
+            IEnumerable<Student> query = _storage.GetStudents();
+
+            if (course is not null)
+            {
+                query = query.Where(s => s.Course == course);
+            }
+
+            if (year.HasValue)
+            {
+                query = query.Where(s => s.YearOfStudy == year.Value);
+            }
+
+            if (status.HasValue)
+            {
+                query = query.Where(s => s.Status == status.Value);
+            }
+
+            return query.ToList();
+        }
     }
 }
