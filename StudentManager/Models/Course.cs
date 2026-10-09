@@ -11,7 +11,7 @@ namespace StudentManager.Models
     * copying using the 'with' expression.
     */
     internal record Course(
-        String CourseId,
+        string CourseId,
         string CourseName,
         Department Deparment,
         int Duration
