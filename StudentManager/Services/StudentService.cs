@@ -82,5 +82,29 @@ namespace StudentManager.Services
                 ? students.OrderByDescending(key)
                 : students.OrderBy(key);
         }
+
+        public StudentStatistics GetStatistics()
+        {
+            var students = _storage.GetStudents().ToList();
+
+            var byStatus = students
+                .GroupBy(s => s.Status)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Count());
+
+            var byCourse = students
+                .GroupBy(s => s.Course.CourseName)
+                .ToDictionary(
+                    group => group.Key,
+                    group => group.Count());
+
+            return new StudentStatistics
+            {
+                TotalStudents = students.Count,
+                StudentsByStatus = byStatus,
+                StudentsByCourse = byCourse
+            };
+        }
     }
 }
