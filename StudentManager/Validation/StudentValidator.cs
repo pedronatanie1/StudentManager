@@ -1,6 +1,7 @@
 ﻿using StudentManager.Models;
 using System;
 using System.Collections.Generic;
+using System.Net.Mail;
 using System.Text;
 using System.Xml.Linq;
 
@@ -26,6 +27,20 @@ namespace StudentManager.Validation
 
             if (year < 1 || year > course.Duration)
                 return ValidationResult.Invalid("Year cannot be outside of course's duration scope");
+
+            return ValidationResult.Valid();
+        }
+
+        public static ValidationResult ValidateEmail(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+                return ValidationResult.Invalid("Email is required.");
+
+            if (!MailAddress.TryCreate(email, out var address))
+                return ValidationResult.Invalid("Email format is not valid.");
+
+            if (address.Address != email)
+                return ValidationResult.Invalid("Email format is not valid.");
 
             return ValidationResult.Valid();
         }
