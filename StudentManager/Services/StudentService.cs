@@ -58,5 +58,29 @@ namespace StudentManager.Services
 
             return query.ToList();
         }
+
+        public IEnumerable<Student> Sort(
+            IEnumerable<Student> students,
+            SortField field,
+            bool descending = false)
+        {
+            Func<Student, object> key = field switch
+            {
+                SortField.FirstName => s => s.FirstName,
+                SortField.LastName => s => s.LastName,
+                SortField.Id => s => s.Id,
+                SortField.DateOfBirth => s => s.DateOfBirth,
+                SortField.YearOfStudy => s => s.YearOfStudy,
+
+                _ => throw new ArgumentOutOfRangeException(
+                    nameof(field),
+                    field,
+                    "Unsupported sort field.")
+            };
+
+            return descending
+                ? students.OrderByDescending(key)
+                : students.OrderBy(key);
+        }
     }
 }
