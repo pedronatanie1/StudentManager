@@ -1,6 +1,7 @@
 ﻿namespace StudentManager.Models
 {
-    internal class ModuleResult
-    {
-    }
+    internal record ModuleResult(
+        Module Module, 
+        int Mark
+        );
 }

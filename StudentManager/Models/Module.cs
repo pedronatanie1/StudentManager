@@ -1,6 +1,8 @@
 ﻿namespace StudentManager.Models
 {
-    internal class Module
-    {
-    }
+    internal record Module(
+        string Id, 
+        string Name, 
+        int Credits
+        );
 }
