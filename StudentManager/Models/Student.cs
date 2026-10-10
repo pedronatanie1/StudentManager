@@ -46,7 +46,8 @@ namespace StudentManager.Models
                     nameof(email));
             }
 
-            if (!MailAddress.TryCreate(email, out _))
+            if (!MailAddress.TryCreate(email, out MailAddress? address)
+                || address.Address != email)
             {
                 throw new ArgumentException(
                     "Email format is not valid.",
@@ -92,12 +93,53 @@ namespace StudentManager.Models
             YearOfStudy = year;
         }
 
+        // Changing state: only these methods may modify a student after creation
+        public void ChangeStatus(StudentStatus newStatus)
+        {
+            if (!Enum.IsDefined(newStatus))
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(newStatus),
+                    "Unknown student status.");
+            }
+
+            Status = newStatus;
+        }
+
+        public void ChangeYear(int newYear)
+        {
+            if (newYear < 1 || newYear > Course.Duration)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(newYear),
+                    "Year of study must be within the course duration.");
+            }
+
+            YearOfStudy = newYear;
+        }
+
+        // The year is passed in too, because the old year may not exist on the new course
+        public void ChangeCourse(Course newCourse, int newYear)
+        {
+            ArgumentNullException.ThrowIfNull(newCourse);
+
+            if (newYear < 1 || newYear > newCourse.Duration)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(newYear),
+                    "Year of study must be within the course duration.");
+            }
+
+            Course = newCourse;
+            YearOfStudy = newYear;
+        }
+
         // Academic performance
         public const int PassMark = 40;
 
         private readonly List<ModuleResult> _results = new();
 
-        public IReadOnlyList<ModuleResult> Results => _results;
+        public IReadOnlyList<ModuleResult> Results => _results.AsReadOnly();
 
         public void RecordGrade(Module module, int mark)
         {
@@ -110,7 +152,7 @@ namespace StudentManager.Models
                     "Mark must be between 0 and 100.");
             }
 
-            // Replace an existing result for this module.
+            // Replace an existing result for this module
             _results.RemoveAll(r => r.Module.Id == module.Id);
 
             _results.Add(new ModuleResult(module, mark));
