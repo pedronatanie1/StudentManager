@@ -76,5 +76,16 @@ namespace StudentManager.Validation
 
             return ValidationResult.Valid();
         }
+
+        public static ValidationResult ValidateMark(int mark)
+        {
+            if (mark < 0 || mark > 100)
+            {
+                return ValidationResult.Invalid(
+                    "Mark must be between 0 and 100.");
+            }
+
+            return ValidationResult.Valid();
+        }
     }
 }
