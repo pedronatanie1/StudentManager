@@ -1,6 +1,6 @@
 ﻿namespace StudentManager.Models
 {
-    internal static class CourseCatalog
+    internal static class CourseCatalogue
     {
         public static IReadOnlyList<Course> Courses { get; } =
         [
