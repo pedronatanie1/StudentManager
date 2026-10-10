@@ -106,5 +106,18 @@ namespace StudentManager.Services
                 StudentsByCourse = byCourse
             };
         }
+        public bool RecordGrade(int studentId, Module module, int mark)
+        {
+            Student? student = FindById(studentId);
+
+            if (student is null)
+            {
+                return false;
+            }
+
+            student.RecordGrade(module, mark);
+
+            return true;
+        }
     }
 }
