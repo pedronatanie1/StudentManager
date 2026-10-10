@@ -8,7 +8,7 @@
     internal record Course(
         string CourseId,
         string CourseName,
-        Department Deparment,
+        Department Department,
         int Duration
         );
 
