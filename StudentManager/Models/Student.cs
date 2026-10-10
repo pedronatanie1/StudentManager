@@ -35,14 +35,14 @@ namespace StudentManager.Models
             if (string.IsNullOrWhiteSpace(lastName))
             {
                 throw new ArgumentException(
-                    "Last name is required.", 
+                    "Last name is required.",
                     nameof(lastName));
             }
 
             if (string.IsNullOrWhiteSpace(email))
             {
                 throw new ArgumentException(
-                    "Email is required.", 
+                    "Email is required.",
                     nameof(email));
             }
 
@@ -91,5 +91,50 @@ namespace StudentManager.Models
             Course = course;
             YearOfStudy = year;
         }
+
+        // Academic performance
+        public const int PassMark = 40;
+
+        private readonly List<ModuleResult> _results = new();
+
+        public IReadOnlyList<ModuleResult> Results => _results;
+
+        public void RecordGrade(Module module, int mark)
+        {
+            ArgumentNullException.ThrowIfNull(module);
+
+            if (mark < 0 || mark > 100)
+            {
+                throw new ArgumentOutOfRangeException(
+                    nameof(mark),
+                    "Mark must be between 0 and 100.");
+            }
+
+            // Replace an existing result for this module.
+            _results.RemoveAll(r => r.Module.Id == module.Id);
+
+            _results.Add(new ModuleResult(module, mark));
+        }
+
+        public double? AverageMark =>
+            _results.Count == 0
+                ? null
+                : _results.Average(r => r.Mark);
+
+        public int? HighestMark =>
+            _results.Count == 0
+                ? null
+                : _results.Max(r => r.Mark);
+
+        public int? LowestMark =>
+            _results.Count == 0
+                ? null
+                : _results.Min(r => r.Mark);
+
+        public int PassedModules =>
+            _results.Count(r => r.Mark >= PassMark);
+
+        public int FailedModules =>
+            _results.Count(r => r.Mark < PassMark);
     }
 }
